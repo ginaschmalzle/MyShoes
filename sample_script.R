@@ -3,28 +3,28 @@ require(ggplot2)
 
 setwd('/Users/ginaschmalzle/Documents/Craig_R')
 
-# Assign sampling rate to 0.15
-R <- 0.16
+# This is the number of shoes I theoreticallyy bought 
+# last year divided by the total number of shoes in 
+# the store (multiply by 100 and you get the 
+# percentage of shoes I bought compared
+# to the total number in the store).
+R <- 0.01
 # Assign the total number of iterations for sampled datasets
 it <- 100
-# Assign daily budget 
+# Assign year 2 budget 
 bd = 1000
 # Assign number of shoes
-nshoe1 <- 1500
-dailymean1 <- 3
-dailysd1 <- 1
+nshoe1 <- 1000               # Number of shoes in the store in year 1
+meanprice1 <- 100         # Mean price of shoes in year 1
+pricesd1 <- 50            # Std of price in shoes in year 1
 
-nshoe2 <- 4000
-dailymean2 <- 3
-dailysd2 <- 3
+nshoe2 <- 1400               # Number of shoes in the store in year 2
+meanprice2 <- 120            # Mean price of shoes in year 2          
+pricesd2 <- 40            # Std of price in shoes in year 2
 #############################################################################
-# Create a dummy dataframe
-# Create a 'bucks' column
-#CREATE DATA TASK- want a dataframe with two parts;
-# each part has a number of shoes N, mean bucks D, and Stdev. of bucks.
-# we want a function to set these parameters in each part.
-#
 
+# Create dummy dataframes
+# The dummy dataframe has a number of shoes (n), mean price, and Stdev. of price
 makedata <- function (numberofshoes, dm, sdv){
  # Assign number of shoes 
  df <- data.frame(shoes = seq(1:numberofshoes))
@@ -33,8 +33,7 @@ makedata <- function (numberofshoes, dm, sdv){
  return (df)
 }
 
-# Functions for sampling and creating tables
-# Make a sample dataframe
+# Functions for make a sample dataframe
 sampleme <- function(dataframe, samplerate){
   # Generate a subsample of shoe numbers, then take the associated
   # bucks and stick them into sdf.
@@ -43,6 +42,7 @@ sampleme <- function(dataframe, samplerate){
   return (sdf)
 }
 
+# Take samples and store them in one big dataframe that contains the iteration number
 storesamples<-function(iteration, df, sr){
   for (iter in 1:iteration){
     sdf <- sampleme(dataframe = df, samplerate=sr)
@@ -52,13 +52,15 @@ storesamples<-function(iteration, df, sr){
   return(allsdf)
 }
 
-
+# Figure out how many shoes I can buy
 shoesIcanbuy <- function(dataframe,mypurse){
   numofshoepairs <- 0
   while (mypurse > 0)  {
     Shoe.pair<-dataframe[sample(nrow(dataframe),1),]
-    mypurse<-mypurse-Shoe.pair$bucks
-    numofshoepairs <- numofshoepairs + 1 
+    if (mypurse >= Shoe.pair$bucks){
+      mypurse<-mypurse-Shoe.pair$bucks
+      numofshoepairs <- numofshoepairs + 1 
+    }  
   }
   return(numofshoepairs)
 }
@@ -92,25 +94,25 @@ how_many_shoes_in_store_I_bought <- function(dataframe, summarya){
 
 
 # make data takes three inputs: number of shoes, mean, and sd)
-df1 <- makedata(nshoe1, dailymean1, dailysd1)
-df2 <- makedata(nshoe2, dailymean2, dailysd2)
+df1 <- makedata(nshoe1, meanprice1, pricesd1)
+df2 <- makedata(nshoe2, meanprice2, pricesd2)
 a <- storesamples(it,df1,R)
 
 ## Summarize output
 summarya <- ddply(a, .(index), summarize, Totalbucks = floor(sum(bucks)))
-#(ggplot(summarya, aes(x=Totalbucks))
-# + geom_histogram()
-#)
+(ggplot(summarya, aes(x=Totalbucks))
+ + geom_histogram()
+)
 summary(summarya$Totalbucks)
 ###Summarize the outcome as a rate
-summarya$Available.bucks <- bd-summarya$Totalbucks
-numofshoepairs.masterdf <- how_many_shoes_in_store_I_bought(df2,summarya)
-numofshoepairs.masterdf$Rate<-numofshoepairs.masterdf$Shoes/nrow(df2)
-(ggplot(numofshoepairs.masterdf, aes(x=Rate))
- + geom_histogram(aes(y=..density..), fill="gray", color="black")
- + theme_bw()
- + geom_density(color="red")
- + geom_vline(x=mean(numofshoepairs.masterdf$Rate), color="blue")
-)
-summary(numofshoepairs.masterdf$Rate)
-summary(numofshoepairs.masterdf$Shoes)
+#summarya$Available.bucks <- bd-summarya$Totalbucks
+#numofshoepairs.masterdf <- how_many_shoes_in_store_I_bought(df2,summarya)
+#numofshoepairs.masterdf$Rate<-numofshoepairs.masterdf$Shoes/nrow(df2)
+#(ggplot(numofshoepairs.masterdf, aes(x=Rate))
+# + geom_histogram(aes(y=..density..), fill="gray", color="black")
+# + theme_bw()
+# + geom_density(color="red")
+# + geom_vline(x=mean(numofshoepairs.masterdf$Rate), color="blue")
+#)
+#summary(numofshoepairs.masterdf$Rate)
+#summary(numofshoepairs.masterdf$Shoes)
