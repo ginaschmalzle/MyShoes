@@ -1,5 +1,6 @@
 require(plyr)
 require(ggplot2)
+require(ggvis)
 
 setwd('/Users/ginaschmalzle/Documents/Craig_R')
 
@@ -35,7 +36,7 @@ makedata <- function (numberofshoes, dm, sdv){
 sampleme <- function(dataframe, samplerate){
   # Generate a subsample of shoe numbers, then take the associated
   # bucks and stick them into sdf.
-  sdf <- data.frame(shoes=sample(dataframe$shoes, size = (samplerate*nrow(dataframe))))
+  sdf <- data.frame(shoes=sample(1:nrow(dataframe), size = (samplerate*nrow(dataframe))))
   sdf <- merge(sdf,dataframe,all.x=TRUE)
   return (sdf)
 }
@@ -142,6 +143,7 @@ numofshoepairs.masterdf$Percent<-(numofshoepairs.masterdf$Shoes/nrow(shoesinstor
  #+ geom_density(color="red")
  + geom_vline(x=mean(numofshoepairs.masterdf$Percent), color="blue")
 )
+
 
 # Print summary of the percentage of shoes I bought from the store
 summary(numofshoepairs.masterdf$Percent)
