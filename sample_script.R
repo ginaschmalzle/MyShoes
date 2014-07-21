@@ -11,8 +11,6 @@ setwd('/Users/ginaschmalzle/Documents/Craig_R')
 R <- 0.01
 # Assign the total number of iterations for sampled datasets
 it <- 200
-# Assign year 2 budget 
-bd = 1000
 # Assign number of shoes
 nshoe1 <- 1000            # Number of shoes in the store in year 1
 meanprice1 <- 100         # Mean price of shoes in year 1
@@ -141,7 +139,7 @@ numofshoepairs.masterdf$Percent<-(numofshoepairs.masterdf$Shoes/nrow(shoesinstor
 (ggplot(numofshoepairs.masterdf, aes(x=Percent))
  + geom_histogram(aes(y=..density..), fill="gray", color="black", binwidth = .1)
  + theme_bw()
-# + geom_density(color="red")
+ #+ geom_density(color="red")
  + geom_vline(x=mean(numofshoepairs.masterdf$Percent), color="blue")
 )
 
