@@ -21,7 +21,8 @@ nshoe2 <- 1400            # Number of shoes in the store in year 2
 meanprice2 <- 120         # Mean price of shoes in year 2          
 pricesd2 <- 40            # Std of price in shoes in year 2
 #############################################################################
-
+# Some functions that help with this problem
+#############################################################################
 # Create dummy dataframes
 # The dummy dataframe has a number of shoes (n), mean price, and Stdev. of price
 makedata <- function (numberofshoes, dm, sdv){
@@ -91,7 +92,7 @@ how_many_shoes_in_store_I_bought <- function(dataframe, summarya, it){
 # QUESTION 1
 ##############################################
 # In year 1, there were nshoe1 number of shoes in the store, that had a mean price of
-# meanprice1, and a price standard deviation of pricesd1.  How much money do I have to 
+# meanprice1, and a price standard deviation of pricesd1.  How much money do I 
 # spend if I purchase 1% (R = 0.01) of the store's inventory?
 ##############################################
 
@@ -121,7 +122,7 @@ summary(summarya$Totalbucks)
 # QUESTION 2
 ##############################################
 # In year 2, I was given the same amount of money I spent in year 1 as my budget.  
-# What percentage of the store's inventory I can buy in year 2, 
+# What percentage of the store's inventory can I buy in year 2, 
 # given the amount of money I spent in year 1?  
 # Hint:  I will take the sampled money I spent last year and figure out 
 # how many shoes I can buy with that money.
