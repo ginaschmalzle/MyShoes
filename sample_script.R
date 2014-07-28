@@ -4,7 +4,7 @@ require(ggvis)
 
 setwd('/Users/ginaschmalzle/Documents/Craig_R')
 
-# This is the number of shoes I theoreticallyy bought 
+# This is the number of shoes I bought 
 # last year divided by the total number of shoes in 
 # the store (multiply by 100 and you get the 
 # percentage of shoes I bought compared
@@ -58,7 +58,7 @@ shoesIcanbuy <- function(dataframe,mypurse){
   while (mypurse > 0)  {
     Shoe.pair<-dataframe[sample(nrow(dataframe),1),] # Pick a random pair of shoes
     if (mypurse >= Shoe.pair$bucks){                 # As long as I have enough money in my purse
-      mypurse<-mypurse-Shoe.pair$bucks               # Buy a pair of shoes and subtract them from my budget
+      mypurse<-mypurse-Shoe.pair$bucks               # Buy a pair of shoes and subtract their price from my budget
       numofshoepairs <- numofshoepairs + 1           # Record the number of shoes I bought
     } 
     else {
@@ -92,7 +92,7 @@ how_many_shoes_in_store_I_bought <- function(dataframe, summarya, it){
 # QUESTION 1
 ##############################################
 # In year 1, there were nshoe1 number of shoes in the store, that had a mean price of
-# meanprice1, and a price standard deviation of pricesd1.  How much money do I 
+# meanprice1, and a price standard deviation of pricesd1.  How much money did I 
 # spend if I purchase 1% (R = 0.01) of the store's inventory?
 ##############################################
 
